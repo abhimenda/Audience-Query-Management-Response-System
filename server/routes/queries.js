@@ -4,7 +4,7 @@ const { getDatabase } = require('../database');
 const { detectTags, detectPriority, suggestAssignment } = require('../services/tagging');
 const { v4: uuidv4 } = require('uuid');
 
-// Get all queries with filters
+
 router.get('/', (req, res) => {
   const db = getDatabase();
   const { status, priority, tag, channel, assigned_to, search, sort = 'created_at', order = 'DESC' } = req.query;
@@ -43,7 +43,7 @@ router.get('/', (req, res) => {
     params.push(`%${tag}%`);
   }
   
-  // Validate sort column to prevent SQL injection
+ 
   const validSortColumns = ['created_at', 'updated_at', 'priority', 'status', 'sender_name'];
   const sortColumn = validSortColumns.includes(sort) ? sort : 'created_at';
   const sortOrder = order.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
@@ -55,7 +55,7 @@ router.get('/', (req, res) => {
       return res.status(500).json({ error: err.message });
     }
     
-    // Parse tags from JSON strings
+
     const queries = rows.map(row => ({
       ...row,
       tags: JSON.parse(row.tags || '[]')
@@ -65,7 +65,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// Get single query with history
+
 router.get('/:id', (req, res) => {
   const db = getDatabase();
   const { id } = req.params;
@@ -79,13 +79,13 @@ router.get('/:id', (req, res) => {
       return res.status(404).json({ error: 'Query not found' });
     }
     
-    // Get assignment history
+   
     db.all('SELECT * FROM assignments WHERE query_id = ? ORDER BY assigned_at DESC', [id], (err, assignments) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
       
-      // Get status history
+    
       db.all('SELECT * FROM status_history WHERE query_id = ? ORDER BY changed_at DESC', [id], (err, statusHistory) => {
         if (err) {
           return res.status(500).json({ error: err.message });
@@ -102,7 +102,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
-// Create new query
+
 router.post('/', (req, res) => {
   const db = getDatabase();
   const { channel, sender_name, sender_email, subject, content } = req.body;
@@ -111,7 +111,7 @@ router.post('/', (req, res) => {
     return res.status(400).json({ error: 'Missing required fields: channel, sender_name, content' });
   }
   
-  // Auto-detect tags and priority
+
   const tags = detectTags(content, subject);
   const priority = detectPriority(content, subject, tags);
   const suggestedAssignment = suggestAssignment(tags, priority);
@@ -128,7 +128,7 @@ router.post('/', (req, res) => {
         return res.status(500).json({ error: err.message });
       }
       
-      // Create initial assignment record
+     
       if (suggestedAssignment) {
         const assignmentId = uuidv4();
         db.run(
@@ -137,7 +137,7 @@ router.post('/', (req, res) => {
         );
       }
       
-      // Create initial status history
+  
       const statusHistoryId = uuidv4();
       db.run(
         'INSERT INTO status_history (id, query_id, old_status, new_status, changed_at) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)',
@@ -160,13 +160,13 @@ router.post('/', (req, res) => {
   );
 });
 
-// Update query
+
 router.put('/:id', (req, res) => {
   const db = getDatabase();
   const { id } = req.params;
   const { status, priority, assigned_to, tags } = req.body;
   
-  // Get current query to track changes
+
   db.get('SELECT status, assigned_to FROM queries WHERE id = ?', [id], (err, currentQuery) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -183,7 +183,7 @@ router.put('/:id', (req, res) => {
       updates.push('status = ?');
       params.push(status);
       
-      // Track status change
+     
       if (status !== currentQuery.status) {
         const statusHistoryId = uuidv4();
         db.run(
@@ -191,7 +191,7 @@ router.put('/:id', (req, res) => {
           [statusHistoryId, id, currentQuery.status, status]
         );
         
-        // If resolved, set resolved_at and calculate response time
+       
         if (status === 'resolved') {
           db.get('SELECT created_at FROM queries WHERE id = ?', [id], (err, query) => {
             if (!err && query) {
@@ -214,7 +214,7 @@ router.put('/:id', (req, res) => {
       updates.push('assigned_to = ?');
       params.push(assigned_to);
       
-      // Track assignment change
+      
       if (assigned_to !== currentQuery.assigned_to) {
         const assignmentId = uuidv4();
         db.run(
@@ -244,7 +244,7 @@ router.put('/:id', (req, res) => {
           return res.status(500).json({ error: err.message });
         }
         
-        // Return updated query
+      
         db.get('SELECT * FROM queries WHERE id = ?', [id], (err, query) => {
           if (err) {
             return res.status(500).json({ error: err.message });
@@ -260,7 +260,7 @@ router.put('/:id', (req, res) => {
   });
 });
 
-// Delete query
+
 router.delete('/:id', (req, res) => {
   const db = getDatabase();
   const { id } = req.params;
@@ -274,7 +274,7 @@ router.delete('/:id', (req, res) => {
       return res.status(404).json({ error: 'Query not found' });
     }
     
-    // Also delete related records
+   
     db.run('DELETE FROM assignments WHERE query_id = ?', [id]);
     db.run('DELETE FROM status_history WHERE query_id = ?', [id]);
     
@@ -282,7 +282,7 @@ router.delete('/:id', (req, res) => {
   });
 });
 
-// Bulk operations
+
 router.post('/bulk', (req, res) => {
   const db = getDatabase();
   const { action, query_ids } = req.body;
@@ -331,5 +331,6 @@ router.post('/bulk', (req, res) => {
 });
 
 module.exports = router;
+
 
 
