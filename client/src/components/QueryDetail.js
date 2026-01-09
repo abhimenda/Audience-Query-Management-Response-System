@@ -89,7 +89,7 @@ function QueryDetail() {
       </Link>
 
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Header */}
+        {}
         <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -129,7 +129,7 @@ function QueryDetail() {
           </div>
         </div>
 
-        {/* Content */}
+        {}
         <div className="px-6 py-6">
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-2">Message</h2>
@@ -138,7 +138,7 @@ function QueryDetail() {
             </div>
           </div>
 
-          {/* Tags */}
+          {}
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-2">Tags</h2>
             <div className="flex flex-wrap gap-2">
@@ -150,7 +150,7 @@ function QueryDetail() {
             </div>
           </div>
 
-          {/* Assignment */}
+          {}
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-2">Assignment</h2>
             <select
@@ -166,7 +166,7 @@ function QueryDetail() {
             </select>
           </div>
 
-          {/* Metadata */}
+          {}
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div>
               <span className="text-sm text-gray-600">Created:</span>
@@ -190,7 +190,7 @@ function QueryDetail() {
             )}
           </div>
 
-          {/* Assignment History */}
+          {}
           {query.assignments && query.assignments.length > 0 && (
             <div className="mb-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-2">Assignment History</h2>
@@ -207,7 +207,7 @@ function QueryDetail() {
             </div>
           )}
 
-          {/* Status History */}
+          {}
           {query.statusHistory && query.statusHistory.length > 0 && (
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-2">Status History</h2>
@@ -235,5 +235,6 @@ function QueryDetail() {
 }
 
 export default QueryDetail;
+
 
 
