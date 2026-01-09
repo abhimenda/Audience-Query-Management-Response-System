@@ -1,4 +1,4 @@
-// Sample data seeder for testing
+
 const { initDatabase, getDatabase } = require('./database');
 const { detectTags, detectPriority, suggestAssignment } = require('./services/tagging');
 const { v4: uuidv4 } = require('uuid');
@@ -66,7 +66,6 @@ function seedDatabase() {
   initDatabase();
   const db = getDatabase();
 
-  // Wait for database to be ready
   setTimeout(() => {
     console.log('Seeding database with sample data...');
 
@@ -78,7 +77,6 @@ function seedDatabase() {
       const id = uuidv4();
       const tagsJson = JSON.stringify(tags);
 
-      // Randomly set some queries as resolved for better demo
       const statuses = ['new', 'new', 'in_progress', 'in_progress', 'resolved'];
       const status = statuses[Math.floor(Math.random() * statuses.length)];
 
@@ -90,7 +88,7 @@ function seedDatabase() {
         const resolvedDate = new Date();
         resolvedDate.setHours(resolvedDate.getHours() - hoursAgo);
         resolvedAt = resolvedDate.toISOString();
-        responseTime = Math.floor(Math.random() * 1440) + 60; // Random between 1 hour and 24 hours in minutes
+        responseTime = Math.floor(Math.random() * 1440) + 60; 
       }
 
       const createdDate = new Date();
@@ -105,7 +103,7 @@ function seedDatabase() {
           if (err) {
             console.error('Error seeding query:', err);
           } else {
-            // Create initial assignment record
+           
             if (suggestedAssignment) {
               const assignmentId = uuidv4();
               db.run(
@@ -114,14 +112,14 @@ function seedDatabase() {
               );
             }
             
-            // Create initial status history
+           
             const statusHistoryId = uuidv4();
             db.run(
               'INSERT INTO status_history (id, query_id, old_status, new_status, changed_at) VALUES (?, ?, ?, ?, ?)',
               [statusHistoryId, id, null, status, createdAt]
             );
             
-            // If resolved, add resolved status history
+            
             if (status === 'resolved' && resolvedAt) {
               const resolvedHistoryId = uuidv4();
               db.run(
@@ -145,4 +143,5 @@ if (require.main === module) {
 }
 
 module.exports = { seedDatabase };
+
 
