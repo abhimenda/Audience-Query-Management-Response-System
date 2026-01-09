@@ -78,7 +78,7 @@ function Analytics() {
         <p className="text-gray-600">Insights into query management performance</p>
       </div>
 
-      {/* Overview Cards */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="text-sm text-gray-600 mb-1">Total Queries</div>
@@ -104,9 +104,9 @@ function Analytics() {
         </div>
       </div>
 
-      {/* Charts Grid */}
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* Status Distribution */}
+        {}
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Queries by Status</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -120,7 +120,7 @@ function Analytics() {
           </ResponsiveContainer>
         </div>
 
-        {/* Priority Distribution */}
+        {}
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Queries by Priority</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -144,7 +144,7 @@ function Analytics() {
           </ResponsiveContainer>
         </div>
 
-        {/* Channel Distribution */}
+        {}
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Queries by Channel</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -158,7 +158,7 @@ function Analytics() {
           </ResponsiveContainer>
         </div>
 
-        {/* Tag Distribution */}
+        {}
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Query Tags</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -183,7 +183,7 @@ function Analytics() {
         </div>
       </div>
 
-      {/* Response Times */}
+      {}
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">Response Times</h3>
@@ -211,7 +211,7 @@ function Analytics() {
         </ResponsiveContainer>
       </div>
 
-      {/* Team Performance */}
+      {}
       {teams.length > 0 && (
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Team Performance</h3>
@@ -260,5 +260,6 @@ function Analytics() {
 }
 
 export default Analytics;
+
 
 
