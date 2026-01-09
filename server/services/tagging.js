@@ -1,4 +1,4 @@
-// Auto-tagging service for categorizing queries
+
 
 const TAGS = {
   QUESTION: 'question',
@@ -12,7 +12,6 @@ const TAGS = {
   TECHNICAL: 'technical'
 };
 
-// Keywords for each tag category
 const TAG_KEYWORDS = {
   [TAGS.QUESTION]: ['question', 'how', 'what', 'why', 'when', 'where', 'can you', 'do you', '?'],
   [TAGS.REQUEST]: ['request', 'please', 'can i', 'would like', 'need', 'want', 'order'],
@@ -36,7 +35,7 @@ function detectTags(content, subject = '') {
     }
   }
 
-  // If no tags detected, default to question
+
   if (detectedTags.length === 0) {
     detectedTags.push(TAGS.QUESTION);
   }
@@ -47,21 +46,21 @@ function detectTags(content, subject = '') {
 function detectPriority(content, subject = '', tags = []) {
   const text = (content + ' ' + subject).toLowerCase();
   
-  // High priority indicators
+
   const highPriorityKeywords = ['urgent', 'asap', 'immediately', 'critical', 'emergency', 'broken', 'down', 'not working'];
   const hasHighPriorityKeyword = highPriorityKeywords.some(keyword => text.includes(keyword));
   
-  // Complaints and bug reports are usually high priority
+
   const isHighPriorityTag = tags.includes(TAGS.COMPLAINT) || tags.includes(TAGS.BUG_REPORT);
   
-  // Multiple exclamation marks or all caps words indicate urgency
+ 
   const hasUrgencyMarkers = (text.match(/!!+/g) || []).length > 0 || /[A-Z]{5,}/.test(content);
   
   if (hasHighPriorityKeyword || isHighPriorityTag || hasUrgencyMarkers) {
     return 'high';
   }
   
-  // Low priority indicators
+
   const lowPriorityKeywords = ['whenever', 'no rush', 'someday', 'maybe'];
   const hasLowPriorityKeyword = lowPriorityKeywords.some(keyword => text.includes(keyword));
   const isLowPriorityTag = tags.includes(TAGS.COMPLIMENT) || tags.includes(TAGS.FEEDBACK);
@@ -74,20 +73,20 @@ function detectPriority(content, subject = '', tags = []) {
 }
 
 function suggestAssignment(tags, priority) {
-  // Route based on tags and priority
+
   if (tags.includes('technical') || tags.includes('bug_report')) {
     return 'team-3'; // Technical Team
   }
   
   if (tags.includes('request') || tags.includes('refund')) {
-    return 'team-2'; // Sales Team
+    return 'team-2';
   }
   
   if (priority === 'high' || tags.includes('complaint')) {
-    return 'team-1'; // Support Team (for urgent issues)
+    return 'team-1'; 
   }
   
-  return 'team-1'; // Default to Support Team
+  return 'team-1'; 
 }
 
 module.exports = {
@@ -96,5 +95,6 @@ module.exports = {
   suggestAssignment,
   TAGS
 };
+
 
 
