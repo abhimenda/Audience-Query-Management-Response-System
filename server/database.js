@@ -7,7 +7,7 @@ const DB_PATH = path.join(__dirname, 'database.sqlite');
 let db = null;
 
 function initDatabase() {
-  // Create database file if it doesn't exist
+  
   if (!fs.existsSync(DB_PATH)) {
     fs.writeFileSync(DB_PATH, '');
   }
@@ -23,7 +23,7 @@ function initDatabase() {
 }
 
 function createTables() {
-  // Queries table
+
   db.run(`CREATE TABLE IF NOT EXISTS queries (
     id TEXT PRIMARY KEY,
     channel TEXT NOT NULL,
@@ -41,7 +41,7 @@ function createTables() {
     response_time INTEGER
   )`);
 
-  // Assignments table (for tracking assignment history)
+ 
   db.run(`CREATE TABLE IF NOT EXISTS assignments (
     id TEXT PRIMARY KEY,
     query_id TEXT NOT NULL,
@@ -51,7 +51,7 @@ function createTables() {
     FOREIGN KEY (query_id) REFERENCES queries(id)
   )`);
 
-  // Status history table
+  
   db.run(`CREATE TABLE IF NOT EXISTS status_history (
     id TEXT PRIMARY KEY,
     query_id TEXT NOT NULL,
@@ -63,7 +63,7 @@ function createTables() {
     FOREIGN KEY (query_id) REFERENCES queries(id)
   )`);
 
-  // Teams table (for routing)
+  
   db.run(`CREATE TABLE IF NOT EXISTS teams (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
@@ -71,7 +71,7 @@ function createTables() {
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 
-  // Insert default teams
+ 
   db.run(`INSERT OR IGNORE INTO teams (id, name, email) VALUES 
     ('team-1', 'Support Team', 'support@company.com'),
     ('team-2', 'Sales Team', 'sales@company.com'),
@@ -99,4 +99,5 @@ module.exports = {
   getDatabase,
   closeDatabase
 };
+
 
