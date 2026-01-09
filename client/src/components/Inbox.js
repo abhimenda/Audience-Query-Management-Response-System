@@ -83,7 +83,7 @@ function Inbox() {
         <p className="text-gray-600">Manage all audience queries from one place</p>
       </div>
 
-      {/* Stats */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
         <StatCard label="Total" value={stats.total} color="blue" />
         <StatCard label="New" value={stats.new} color="yellow" />
@@ -92,10 +92,10 @@ function Inbox() {
         <StatCard label="High Priority" value={stats.high} color="red" />
       </div>
 
-      {/* Filters */}
+      {}
       <FilterBar filters={filters} onFilterChange={handleFilterChange} />
 
-      {/* Bulk Actions */}
+      {}
       {selectedQueries.length > 0 && (
         <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-4 flex items-center justify-between">
           <span className="text-primary-800 font-medium">
@@ -140,7 +140,7 @@ function Inbox() {
         </div>
       )}
 
-      {/* Query List */}
+      {}
       {loading ? (
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
@@ -196,5 +196,6 @@ function StatCard({ label, value, color }) {
 }
 
 export default Inbox;
+
 
 
