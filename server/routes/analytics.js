@@ -2,35 +2,33 @@ const express = require('express');
 const router = express.Router();
 const { getDatabase } = require('../database');
 
-// Get overall analytics
+
 router.get('/overview', (req, res) => {
   const db = getDatabase();
-  
-  // Total queries
+ 
   db.get('SELECT COUNT(*) as total FROM queries', (err, totalResult) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
     
-    // Queries by status
+
     db.all('SELECT status, COUNT(*) as count FROM queries GROUP BY status', (err, statusCounts) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
       
-      // Queries by priority
+ 
       db.all('SELECT priority, COUNT(*) as count FROM queries GROUP BY priority', (err, priorityCounts) => {
         if (err) {
           return res.status(500).json({ error: err.message });
         }
-        
-        // Queries by channel
+
         db.all('SELECT channel, COUNT(*) as count FROM queries GROUP BY channel', (err, channelCounts) => {
           if (err) {
             return res.status(500).json({ error: err.message });
           }
           
-          // Average response time
+         
           db.get('SELECT AVG(response_time) as avg_response_time FROM queries WHERE response_time IS NOT NULL', (err, avgResponse) => {
             if (err) {
               return res.status(500).json({ error: err.message });
@@ -50,7 +48,7 @@ router.get('/overview', (req, res) => {
   });
 });
 
-// Get tag distribution
+
 router.get('/tags', (req, res) => {
   const db = getDatabase();
   
@@ -68,7 +66,7 @@ router.get('/tags', (req, res) => {
           tagCounts[tag] = (tagCounts[tag] || 0) + 1;
         });
       } catch (e) {
-        // Skip invalid JSON
+    
       }
     });
     
@@ -76,7 +74,6 @@ router.get('/tags', (req, res) => {
   });
 });
 
-// Get response time analytics
 router.get('/response-times', (req, res) => {
   const db = getDatabase();
   const { period = '7' } = req.query; // days
@@ -104,7 +101,7 @@ router.get('/response-times', (req, res) => {
   );
 });
 
-// Get query trends over time
+
 router.get('/trends', (req, res) => {
   const db = getDatabase();
   const { period = '30' } = req.query; // days
@@ -131,7 +128,7 @@ router.get('/trends', (req, res) => {
   );
 });
 
-// Get team performance
+
 router.get('/teams', (req, res) => {
   const db = getDatabase();
   
@@ -157,4 +154,5 @@ router.get('/teams', (req, res) => {
 });
 
 module.exports = router;
+
 
